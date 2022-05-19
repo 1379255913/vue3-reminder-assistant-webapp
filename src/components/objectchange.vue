@@ -9,6 +9,7 @@
                         placeholder="物品名"
                         required
                         :rules="[{ required: true, message: '请填写物品名称' }]"
+                        maxlength="100"
                 />
                 <van-field
                         v-model="manufacture_time_result"
@@ -63,6 +64,7 @@
                         required
                         :rules="[{ required: true, message: '请选择标签' }]"
                         @click="showPicker4 = true"
+                        maxlength="10"
                 />
                 <van-popup v-model:show="showPicker" position="bottom" round>
                     <van-datetime-picker

@@ -9,6 +9,7 @@
                         placeholder="旧密码"
                         type="password"
                         :rules="[{ required: true, message: '请填写旧密码' }]"
+                        maxlength="20"
                 />
                 <van-field
                         v-model="password1"
@@ -17,6 +18,7 @@
                         placeholder="新密码"
                         type="password"
                         :rules="[{ required: true, message: '请填写新密码' }]"
+                        maxlength="20"
                 />
                 <van-field
                         v-model="password2"
@@ -25,6 +27,7 @@
                         placeholder="再次填写新密码"
                         type="password"
                         :rules="[{ required: true, message: '请再次填写新密码' }]"
+                        maxlength="20"
                 />
             </van-cell-group>
             <div style="margin: 16px;">

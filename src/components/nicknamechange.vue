@@ -8,6 +8,7 @@
                         label="昵称"
                         placeholder="昵称"
                         :rules="[{ required: true, message: '请填写昵称' }]"
+                        maxlength="10"
                 />
             </van-cell-group>
             <div style="margin: 16px;">

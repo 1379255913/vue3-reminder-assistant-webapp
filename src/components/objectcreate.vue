@@ -9,6 +9,7 @@
                         placeholder="物品名"
                         required
                         :rules="[{ required: true, message: '请填写物品名称' }]"
+                        maxlength="100"
                 />
                 <van-field
                         v-model="manufacture_time_result"

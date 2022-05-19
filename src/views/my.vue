@@ -23,7 +23,7 @@
 <!--        <van-cell icon="bullhorn-o" title="提醒与通知"  is-link ></van-cell>-->
         <van-cell icon="back-top" title="导出物品表格"  is-link to="/excelexport"></van-cell>
         <van-cell icon="down" title="批量导入物品"  is-link to="/csvimport"></van-cell>
-        <van-cell icon="revoke" title="同步和恢复"  is-link to="/sync"></van-cell>
+        <van-cell icon="revoke" title="同步和恢复"  is-link @click="clicksync"></van-cell>
         <van-cell icon="question-o" title="帮助与反馈"  is-link to="/help"></van-cell>
         <login></login>
         <register></register>
@@ -39,6 +39,7 @@ import login from "@/components/login";
 import register from "@/components/register";
 import sync from "@/views/sync";
 import {useRouter} from "vue-router";
+import {Toast} from 'vant'
 export default {
     name: "my",
     components : {
@@ -60,8 +61,23 @@ export default {
         const register = ()=>{
             emitter.emit("register","");
         }
+        const clicksync = ()=>{
+            let token = JSON.parse(localStorage.getItem('user'))
+            if (token){
+                userRouter.push("sync");
+            } else {
+                Toast("请先登录！");
+            }
+
+        }
         const clickuserconfig =()=>{
-            userRouter.push("userconfig");
+            let token = JSON.parse(localStorage.getItem('user'))
+            if (token){
+                userRouter.push("userconfig");
+            } else {
+                Toast("请先登录！");
+            }
+
         }
         const onClickLeft =()=>{
             history.back();
@@ -89,7 +105,8 @@ export default {
             onClickLeft,
             login,
             register,
-            clickuserconfig
+            clickuserconfig,
+            clicksync
         }
     }
 }

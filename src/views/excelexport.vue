@@ -13,6 +13,7 @@
                 <van-radio-group v-model="sort_rules" direction="horizontal">
                     <van-radio name="1" icon-size="20" class="text1">最近过期</van-radio>
                     <van-radio name="2" icon-size="20" class="text1">物品名称</van-radio>
+                    <van-radio name="3" icon-size="20" class="text1">物品标签</van-radio>
 <!--                    <van-radio name="3" icon-size="20" class="text1">物品状态</van-radio>-->
                 </van-radio-group>
             </template>
@@ -140,6 +141,11 @@ export default {
                 } else if (state.sort_rules === "2") {
                     ans.sort(
                         firstBy("information", "asc")
+                            .thenBy("expiration_time", "asc")
+                    );
+                } else if (state.sort_rules === "3") {
+                    ans.sort(
+                        firstBy("type", "asc")
                             .thenBy("expiration_time", "asc")
                     );
                 }

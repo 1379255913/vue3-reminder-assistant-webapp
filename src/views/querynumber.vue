@@ -79,22 +79,28 @@ export default {
             state.show =false;
         }
         const onSubmit=()=>{
-            state.query = true;
-            instance.post("/lotno",{
-                'brand' : state.brand,
-                'number' :state.number
-            }).then(res =>{
-                dialog(res.data.data)
-                state.query = false;
-            }).catch(function (error) {
-                state.query = false;
-                Dialog.alert({
-                    title: '错误',
-                    message: '服务器错误，请稍后再试',
-                }).then(() => {
+            if (state.query===false){
+                state.query = true;
+                instance.post("/lotno",{
+                    'brand' : state.brand,
+                    'number' :state.number
+                }).then(res =>{
+                    state.query = false;
+                    dialog(res.data.data)
+                }).catch(function (error) {
+                    state.query = false;
+                    Dialog.alert({
+                        title: '错误',
+                        message: '服务器错误，请稍后再试',
+                    }).then(() => {
+                    });
+                    console.log(error.message);
                 });
-                console.log(error.message);
-            });
+                setTimeout(()=>{
+                    state.query = false
+                },10000)
+            }
+
         }
         const dialog =(data)=>{
             if (data==="未找到相关记录"){
@@ -104,6 +110,7 @@ export default {
                 }).then(() => {
                     // on close
                 });
+                state.query = false;
             }
             else {
                 Dialog.confirm({

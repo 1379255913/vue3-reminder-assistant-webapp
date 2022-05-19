@@ -7,10 +7,18 @@
                 @click-left="onClickLeft"
         />
         <br/>
-        <van-cell icon="info" title="说明书"  is-link ></van-cell>
-        <van-cell icon="qq" title="和我们聊一聊"  is-link ></van-cell>
+        <van-cell icon="info" title="说明书"  is-link @click="Click1"></van-cell>
+        <van-cell icon="chat" title="我要反馈" is-link @click="Click1"></van-cell>
+        <van-cell icon="qq" title="和我们聊一聊"  >
+            <template #value>
+                QQ:1379255913
+            </template>
+        </van-cell>
         <div style="margin: 16px;text-align:center">
             设计&开发:张三
+        </div>
+        <div style="margin: 16px;text-align:center">
+            团队:藏羚羊
         </div>
     </div>
 </template>
@@ -31,7 +39,7 @@
                 history.back();
             }
             const Click1 = ()=>{
-                emitter.emit("nicknamechange","");
+                window.location = "https://support.qq.com/product/408368"
             }
             const Click2 = ()=>{
                 emitter.emit("passwordchange","");

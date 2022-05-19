@@ -56,6 +56,7 @@
             return {
                 codeReader: null,
                 warning : false,
+                query : false,
             }
         },
         mounted() {
@@ -122,11 +123,11 @@
                 let t;
                 console.log(result)
                 if (result.length===13){
-
+                    that.warning = true;
                     instance.post("/barcode",{
                         'code' : result
                     }).then(res =>{
-                        that.warning = true;
+
                         t =res.data.data;
                         console.log(t)
                         if (t==="未找到相关记录"){
@@ -134,6 +135,8 @@
                                 title: '查询结果',
                                 message: '未找到相关记录',
                             }).then(() => {
+                                that.warning = false;
+                            }).catch(()=>{
                                 that.warning = false;
                             });
                         }

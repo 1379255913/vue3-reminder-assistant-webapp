@@ -8,6 +8,7 @@
                         label="用户名"
                         placeholder="用户名"
                         :rules="[{ required: true, message: '请填写用户名' }]"
+                        maxlength="20"
                 />
 
                 <van-field
@@ -17,6 +18,7 @@
                         label="密码"
                         placeholder="密码"
                         :rules="[{ required: true, message: '请填写密码' }]"
+                        maxlength="20"
                 />
             </van-cell-group>
             <div style="margin: 16px;">

@@ -8,12 +8,14 @@
                         label="用户名"
                         placeholder="用户名"
                         :rules="[{ required: true, message: '请填写用户名' }]"
+                        maxlength="20"
                 />
                 <van-field
                         v-model="nickname"
                         name="昵称"
                         label="昵称"
                         placeholder="昵称"
+                        maxlength="10"
                         :rules="[{ required: true, message: '请填写昵称' }]"
                 />
                 <van-field
@@ -23,6 +25,7 @@
                         label="密码"
                         placeholder="密码"
                         :rules="[{ required: true, message: '请填写密码' }]"
+                        maxlength="20"
                 />
                 <van-field
                         v-model="password2"
@@ -31,6 +34,7 @@
                         label="确认密码"
                         placeholder="再次输入密码"
                         :rules="[{ required: true, message: '请确认密码' }]"
+                        maxlength="20"
                 />
             </van-cell-group>
             <div style="margin: 16px;">
