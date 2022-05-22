@@ -26,7 +26,6 @@
 </template>
 
 <script>
-
     import search from "@/components/search";
     import state from "@/components/state";
     import tags from "@/components/tags";
@@ -42,21 +41,24 @@
                 showPopover : false,
                 actions : [
                     { text: '手动录入' },
-                    { text: '查批号' },
+                    { text: '化妆品查批号' },
                     { text: '扫条码' },
+                    { text: '药品查批号' },
                 ]
             })
             const onSelect =(action)=>{
                 console.log(action.text)
                 if (action.text==="手动录入")
                 emitter.emit("objectcreate","");
-                else if (action.text==="查批号"){
+                else if (action.text==="化妆品查批号"){
                     userRouter.push("querynumber");
                 }else if (action.text==="扫条码"){
                     userRouter.push("scarn");
                     setTimeout(()=>{
                         emitter.emit("hidetabs","")
                     },550)
+                } else if (action.text==="药品查批号"){
+                    userRouter.push("drug");
                 }
             }
             const search =()=>{
@@ -78,7 +80,6 @@
             search,
             state,
             tags,
-
         },
     }
 </script>

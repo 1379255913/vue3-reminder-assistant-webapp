@@ -54,17 +54,21 @@
                         <van-button  type="primary" size="small">天</van-button>
                     </template>
                 </van-field>
-                <van-field
-                        v-model="label"
-                        is-link
-                        readonly
-                        name="标签"
-                        label="标签"
-                        placeholder="标签名"
-                        required
-                        :rules="[{ required: true, message: '请选择标签' }]"
-                        @click="showPicker4 = true"
-                />
+                <van-row align="center">
+                    <van-col span="20"><van-field
+                            v-model="label"
+                            is-link
+                            readonly
+                            name="标签"
+                            label="标签"
+                            placeholder="标签名"
+                            required
+                            :rules="[{ required: true, message: '请选择标签' }]"
+                            @click="showPicker4 = true"
+                    /></van-col>
+                    <van-col span="4"><van-button icon="plus" type="primary" size="small" @click="createtags()"/></van-col>
+                </van-row>
+
                 <van-popup v-model:show="showPicker" position="bottom" round>
                     <van-datetime-picker
                             type="date"
@@ -112,6 +116,7 @@
             </div>
         </van-form>
     </van-dialog>
+    <tagscreate></tagscreate>
 </template>
 
 <script>
@@ -122,8 +127,12 @@
     import {formatDates} from "@/formate_date";
     import moment from  "moment"
     import randomid from "@/randomid";
+    import tagscreate from "@/components/tagscreate";
     export default {
         name: "objectcreate",
+        components:{
+            tagscreate
+        },
         setup(){
             const state = reactive({
                 classid : -1,
@@ -149,6 +158,9 @@
                 labellist : [],
                 reminderlist : ["过期前1天","过期前3天","过期前5天","自定义天数"]
             })
+            const createtags =()=>{
+                emitter.emit("tagscreate","");
+            }
             const onSubmit = ()=>{
                 console.log("111");
                 var t = JSON.parse(localStorage.getItem("objects"));
@@ -189,6 +201,13 @@
                 emitter.emit("detail","");
                 Toast.success('创建成功');
                 state.show = false;
+                state.tagname = "";
+                state.manufacture_time_result = "";
+                state.expiration_time_result = "";
+                state.label = "";
+                state.bzq = 0;
+                state.bzq_dw = "月";
+                state.reminder_time = "";
             }
             const re_time = ()=>{
                 var t = moment(state.expiration_time_result);
@@ -265,15 +284,17 @@
                     state.expiration_time = new Date(state.expiration_time_result);
                 }
             }
+            const init = ()=>{
+                state.labellist=[];
+                var t = JSON.parse(localStorage.getItem("tags"));
+                for (let i=0; i<t.length ; i++){
+                    state.labellist.push(t[i]);
+                }
+            }
             onMounted(()=>{
                 emitter.on("objectcreate",data=>{
                     state.show=true;
-                    state.tagname = "";
-                    state.labellist=[];
-                    var t = JSON.parse(localStorage.getItem("tags"));
-                    for (let i=0; i<t.length ; i++){
-                        state.labellist.push(t[i]);
-                    }
+                    init()
                     if (data){
                         if ("expiration_time" in data){
                             state.tagname = data.information;
@@ -291,9 +312,13 @@
                         }
                     }
                 })
+                emitter.on("newtagsinit",data=>{
+                    init();
+                })
             })
             onUnmounted(()=>{
                 emitter.off("objectcreate");
+                emitter.off("newtagsinit");
             })
             return{
                 ...toRefs(state),
@@ -303,7 +328,8 @@
                 onConfirm3,
                 onConfirm4,
                 onConfirm5,
-                change
+                change,
+                createtags,
             }
         }
     }

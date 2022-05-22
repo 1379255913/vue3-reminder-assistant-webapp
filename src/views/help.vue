@@ -8,7 +8,7 @@
         />
         <br/>
         <van-cell icon="info" title="说明书"  is-link @click="Click1"></van-cell>
-        <van-cell icon="chat" title="我要反馈" is-link @click="Click1"></van-cell>
+        <van-cell icon="chat" title="我要反馈" is-link @click="Click0"></van-cell>
         <van-cell icon="qq" title="和我们聊一聊"  >
             <template #value>
                 QQ:1379255913
@@ -20,6 +20,7 @@
         <div style="margin: 16px;text-align:center">
             团队:藏羚羊
         </div>
+        <returns></returns>
     </div>
 </template>
 
@@ -27,19 +28,26 @@
     import { reactive,toRefs,onMounted,onUnmounted } from 'vue'
     import emitter from "@/event";
     import {Dialog} from "vant";
+    import Returns from "@/components/returns";
+    import {useRouter} from "vue-router";
     export default {
         name: "help",
         components:{
+            Returns
         },
         setup(){
+            const userRouter = useRouter()
             const state = reactive({
 
             })
             const onClickLeft = ()=>{
-                history.back();
+                userRouter.push('my')
+            }
+            const Click0 =()=>{
+                emitter.emit("returns","https://support.qq.com/product/408368");
             }
             const Click1 = ()=>{
-                window.location = "https://support.qq.com/product/408368"
+                emitter.emit("returns","https://support.qq.com/products/408368/faqs-more/");
             }
             const Click2 = ()=>{
                 emitter.emit("passwordchange","");
@@ -61,7 +69,8 @@
                 onClickLeft,
                 Click1,
                 Click2,
-                Click3
+                Click3,
+                Click0
             }
         }
     }

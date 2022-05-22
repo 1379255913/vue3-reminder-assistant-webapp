@@ -50,7 +50,8 @@
                     "id" : id,
                 });
                 localStorage.setItem("tags",JSON.stringify(t))
-                emitter.emit("updatetags","")
+                emitter.emit("updatetags","");
+                emitter.emit("newtagsinit","");
                 state.show = false;
             }
             onMounted(()=>{

@@ -6,6 +6,7 @@
                 right-text="帮助"
                 left-arrow
                 @click-left="onClickLeft"
+                @click-right="help"
         />
         <br/>
         <van-cell title="导入格式" class="title1" >
@@ -31,6 +32,7 @@
                 <div>导入</div>
             </van-button>
         </div>
+        <returns></returns>
     </div>
 </template>
 
@@ -43,13 +45,20 @@ import jschardet from 'jschardet';
 import randomid from "@/randomid";
 import moment from  "moment";
 import states from "@/state";
+import returns from "@/components/returns";
 export default {
     name: "csvimport",
+    components:{
+        returns,
+    },
     setup(){
         const state = reactive({
             fileList : [],
             ways : "1"
         })
+        const help = ()=>{
+            emitter.emit("returns","https://support.qq.com/products/408368/faqs/119058");
+        }
         const beforeRead = (file) => {
             console.log(file.type)
             if (file.type !== 'text/csv' &&file.type!== 'text/comma-separated-values') {
@@ -268,13 +277,13 @@ export default {
         }
         onMounted(()=>{
             emitter.emit("tab","")
-
         })
         return{
             ...toRefs(state),
             onClickLeft,
             beforeRead,
-            imports
+            imports,
+            help
         }
     }
 }

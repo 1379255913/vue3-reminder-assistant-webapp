@@ -117,7 +117,7 @@ export default {
                     title: '查询结果',
                     confirmButtonText: '添加',
                     message:
-                        '品牌：'+state.brand+'\n'+'批号：'+state.brand+'\n'+'生产日期：'+data.manufacture_time+'\n'+'过期日期：'+data.expiration_time+'\n',
+                        '品牌：'+state.brand+'\n'+'批号：'+state.number+'\n'+'生产日期：'+data.manufacture_time+'\n'+'过期日期：'+data.expiration_time+'\n',
                 })
                     .then(() => {
                         let t = {

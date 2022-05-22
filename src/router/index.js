@@ -12,6 +12,7 @@ import userconfig from "@/views/userconfig";
 import csvimport from "@/views/csvimport";
 import sync from "@/views/sync";
 import help from "@/views/help";
+import drug from "@/views/drug";
 const routes = [
 
     {
@@ -65,6 +66,12 @@ const routes = [
         path: '/inputcode',
         name: 'inputcode',
         component: inputcode,
+        meta: {index:3 }
+    },
+    {
+        path: '/drug',
+        name: 'drug',
+        component: drug,
         meta: {index:3 }
     },
     {

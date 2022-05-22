@@ -7,6 +7,7 @@
                     <div><van-icon name="close" size="2rem" style="color: #0a6fb3;line-height: 46px;" @click="onClickLeft()"/></div>
                 </van-col>
             </van-row>
+            <dropdown></dropdown>
         </van-sticky>
         <br/>
         <van-row v-show="DataList.length">
@@ -57,10 +58,11 @@
     import {useRoute} from 'vue-router'
     import {firstBy,thenBy} from "thenby"
     import objectchange from "@/components/objectchange";
+    import dropdown from "@/components/dropdown";
     import states from "@/state";
     import objectcreate from "@/components/objectcreate";
     export default {
-        components: {objectcreate,objectchange},
+        components: {objectcreate,objectchange,dropdown},
         setup() {
             const userRouter = useRoute()
             const state = reactive({
@@ -70,7 +72,10 @@
                 DataListStore : [],
                 isedit: false,
                 editname : "修改",
-                value: ""
+                value: "",
+                sortrules: 0,
+                sortstates: ["最佳", "临近过期", "已过期"],
+                sortstags: []
             })
             const onClickLeft = () => history.back();
             const onClickRight = () => {
@@ -108,22 +113,40 @@
 
             }
             watch (() => state.value,(to, from) => {
+                newsearch();
+            })
+            const newsearch =()=>{
                 state.DataList=[];
                 if (state.value===""){
                 }else {
                     for (let i =0;i<state.DataListStore.length;i++){
-                        if (state.DataListStore[i].information.includes(state.value)){
+                        if (state.DataListStore[i].information.includes(state.value)&&state.sortstates.includes(state.DataListStore[i].state)&&state.sortstags.includes(state.DataListStore[i].type_id)){
                             state.DataList.push(state.DataListStore[i]);
                         }
                     }
                 }
-            })
+                if (state.sortrules===0){
+                    state.DataList.sort(
+                        firstBy("expiration_time", "asc")
+                            .thenBy("reminder_time", "asc")
+                    )
+                } else if (state.sortrules===1){
+                    state.DataList.sort(
+                        firstBy("information", "asc")
+                            .thenBy("expiration_time", "asc")
+                    )
+                } else if (state.sortrules===2){
+                    state.DataList.sort(
+                        firstBy("type", "asc")
+                            .thenBy("expiration_time", "asc")
+                    )
+                }
+            }
             const create = () =>{
                 emitter.emit("objectcreate","");
             }
             const init =  () =>{
                 let data=userRouter.params;
-                console.log(data);
                 state.DataList=[];
                 state.title=data.name;
                 let o = JSON.parse(localStorage.getItem("objects"));
@@ -151,10 +174,25 @@
                 emitter.on("detail",data=>{
                     init();
                 })
+                emitter.on("newsortrules",data=>{
+                    if (data.rule===0 ){
+                        state.sortrules = data.value;
+                    } else if(data.rule ===1){
+                        state.sortstates = data.value;
+                    } else if (data.rule ===2){
+                        state.sortstags = data.value;
+                    }
+                    newsearch();
+                })
                 init();
+                let t = JSON.parse(localStorage.getItem("tags"));
+                for (let i=0; i<t.length ; i++){
+                    state.sortstags.push(t[i].id);
+                }
             })
             onUnmounted(()=>{
-                emitter.off("detail")
+                emitter.off("detail");
+                emitter.off("newsortrules");
             })
             return {
                 ...toRefs(state),

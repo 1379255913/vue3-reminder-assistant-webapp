@@ -27,7 +27,6 @@
         </van-cell-group>
     </div>
     <tagschange></tagschange>
-    <tagscreate></tagscreate>
 </template>
 
 <script>

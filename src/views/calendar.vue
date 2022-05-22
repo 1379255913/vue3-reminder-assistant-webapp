@@ -162,9 +162,8 @@
                 state.dataListStore = o;
             }
             onMounted(()=>{
-                state.date = moment(new Date().getTime()).format('YYYY年MM月DD日');
-                state.week="星期"+"日一二三四五六".charAt(new Date().getDay());
                 init();
+                select(new Date())
                 emitter.on("detail",data=>{
                     init();
                     select(state.selectdate);
