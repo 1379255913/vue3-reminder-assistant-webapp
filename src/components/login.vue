@@ -54,7 +54,8 @@ export default {
                 if (res.data.code===200){
                     localStorage.setItem("user",JSON.stringify(res.data.data));
                     state.show = false;
-                    emitter.emit("flashmy","")
+                    emitter.emit("flashmy","");
+                    location.reload();
                 }else {
                     Dialog.alert({
                         title: '错误',

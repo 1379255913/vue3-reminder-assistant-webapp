@@ -14,13 +14,13 @@
                 </van-col>
             </van-row>
         </van-sticky>
+        <notice></notice>
         <van-row justify="center">
             <van-col span="2"></van-col>
             <van-col span="20"><state></state></van-col>
             <van-col span="2"></van-col>
         </van-row>
         <tags></tags>
-
     <objectcreate></objectcreate>
     </div>
 </template>
@@ -33,6 +33,7 @@
     import {toRefs,reactive,onMounted} from 'vue'
     import Objectcreate from "@/components/objectcreate";
     import {useRouter} from "vue-router";
+    import notice from "@/components/notice";
     export default {
         name: "home",
         setup(){
@@ -80,6 +81,7 @@
             search,
             state,
             tags,
+            notice
         },
     }
 </script>

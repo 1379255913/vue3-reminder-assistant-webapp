@@ -45,12 +45,14 @@ export default {
             emitter.emit("passwordchange","");
         }
         const Click3 = ()=>{
-            Dialog.alert({
+            Dialog.confirm({
                 title: '警告',
                 message: "你确定要退出吗？",
             }).then(() => {
                 localStorage.removeItem("user");
                 history.back();
+            }).catch(()=>{
+
             });
         }
         onMounted(()=>{
